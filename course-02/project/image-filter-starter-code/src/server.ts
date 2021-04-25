@@ -38,15 +38,10 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
         }
         // filter URL 
         const filteredUrl = await filterImageFromURL(image_url);
-        // send filtered URL in response
+        // send filtered URL in response and delete after sending
         res.status(200).sendFile(filteredUrl, () =>
             deleteLocalFiles([filteredUrl])
         );
-       // res.status(200).sendFile(filteredUrl);
-        //console.log(filteredUrl);
-        // Delete files on server
-
-       //await deleteLocalFiles([filteredUrl]);
     });
   //! END @TODO1
   
