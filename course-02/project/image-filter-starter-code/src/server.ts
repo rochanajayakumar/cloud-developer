@@ -34,14 +34,19 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
         let { image_url } = req.query;
         //validate image url query
         if (!image_url) {
-            return res.status(400).send({ message: 'File url is required' });
+            return res.status(400).send({ message: 'Provide valid image url' });
         }
         // filter URL 
-        let filteredUrl = await filterImageFromURL(image_url);
-        // send filtered URL in response 
-        res.status(200).sendFile(filteredUrl);
+        const filteredUrl = await filterImageFromURL(image_url);
+        // send filtered URL in response
+        res.status(200).sendFile(filteredUrl, () =>
+            deleteLocalFiles([filteredUrl])
+        );
+       // res.status(200).sendFile(filteredUrl);
+        //console.log(filteredUrl);
         // Delete files on server
-        deleteLocalFiles([filteredUrl]);
+
+       //await deleteLocalFiles([filteredUrl]);
     });
   //! END @TODO1
   
